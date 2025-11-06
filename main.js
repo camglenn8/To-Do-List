@@ -2,6 +2,7 @@
 let addTaskBtn = document.getElementById("addTaskBtn")
 let taskInput = document.getElementById("textInput");
 let taskList = document.getElementById("taskList");
+let errorMsg = document.getElementById("taskErrorMsg");
 
 
 // Name         : isInputFilled
@@ -16,20 +17,33 @@ function isInputFilled() {
     // Remove all whitespace from text & check if empty.
     data = data.trim();
     if (data == "") {
-        // Prompt user to enter text.
-        alert("ENTER TEXT");
-
         return false;
     }
 
     return true;
 }
 
+
+// Name         : clearErrorPrompts
+// Description  : This function is used to remove any error prompts
+// Parameters   : Void
+// Return Value : Void
+function clearErrorPrompts() {
+    // Clears the empty task input field prompt. 
+    errorMsg.textContent = "";
+}
+
 // Event Listener
 addTaskBtn.addEventListener("click", function () {
 
-    // Check to see if anything has been entered into text field. 
-    let result = isInputFilled();
+    // Clear any error prompts.
+    clearErrorPrompts();
 
+    // Check to see if anything has been entered into text field. 
+    if (isInputFilled() == false) {
+        // Prompt the user to enter a task.
+        errorMsg.textContent = "Please enter a task."
+        return;
+    }
 
 });
