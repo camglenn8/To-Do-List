@@ -44,20 +44,20 @@ function updateTaskList(taskList)
     // Display all tasks within the taskList[]. 
     for (const task of taskList)
     {
-        // Generate a new "li" element & add the task data to it. 
+        // Generate a new "li" element.
         const newTask = document.createElement("li"); 
 
         // Assign the tasks value to the List Item Element. 
         newTask.textContent = task; 
 
-        // Access the Unordered List Element & append the LI element.   
+        // Access the Unordered List Element & append the newTask element.   
         listOfTasks.appendChild(newTask);  
     }
-}; 
+};
 
 
 
-// Event Listener
+// Event Listener for Clicking the Add Task Button. 
 addTaskBtn.addEventListener("click", function () 
 {
 
@@ -81,4 +81,14 @@ addTaskBtn.addEventListener("click", function ()
 
     // Clear the task input field.
     taskInput.value = "";  
+});
+
+// Event listener for pressing ENTER to add a task. 
+taskInput.addEventListener("keydown", function(event)
+{
+    // When a user click "Enter" - it will direct you to the addTaskBtn click event handler.
+    if (event.key === "Enter")
+    {
+        addTaskBtn.click(); 
+    }
 });
