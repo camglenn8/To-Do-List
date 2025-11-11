@@ -1,8 +1,12 @@
+import TaskList from "./taskList.js";
+
 // Selectors
 let addTaskBtn = document.getElementById("addTaskBtn")
 let taskInput = document.getElementById("textInput");
-let taskList = document.getElementById("taskList");
 let errorMsg = document.getElementById("taskErrorMsg");
+
+// Initiate TaskList Object.
+let taskList = new TaskList();
 
 
 // Name         : isInputFilled
@@ -24,20 +28,11 @@ function isInputFilled() {
 }
 
 
-// Name         : clearErrorPrompts
-// Description  : This function is used to remove any error prompts
-// Parameters   : Void
-// Return Value : Void
-function clearErrorPrompts() {
-    // Clears the empty task input field prompt. 
-    errorMsg.textContent = "";
-}
-
 // Event Listener
 addTaskBtn.addEventListener("click", function () {
 
-    // Clear any error prompts.
-    clearErrorPrompts();
+    // Clears the empty task input field prompt. 
+    errorMsg.textContent = "";
 
     // Check to see if anything has been entered into text field. 
     if (isInputFilled() == false) {
@@ -45,5 +40,7 @@ addTaskBtn.addEventListener("click", function () {
         errorMsg.textContent = "Please enter a task."
         return;
     }
+
+    // Add the task. 
 
 });
