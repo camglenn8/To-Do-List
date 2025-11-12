@@ -13,20 +13,28 @@
 
     <!-- Outer Container -->
     <div id="outerContainer" class="outerContainer">
-        <!-- Title -->
-        <h1 id="title" class="title">To Do List</h1>
+
+        <!-- Timer Section -->
+         <section id="timerSection">
+            <h1 id="title" class="title">Timer</h1>
+         </section>
 
         <!-- Task Section -->
         <section class="taskSection">
-
-            <!-- Add a Task -->
-            <button id="addTaskBtn">Add Task</button>
-            <input type="text" id="taskInput" placeholder="Add a new task">
-            <p id="taskErrorMsg"></p>
-
-            <!-- Tasks -->
-            <ul id="taskList"></ul>
-
+            <h1 id="title" class="title">To Do List</h1>
+            <!-- Add Task Input Field & Button -->
+            <div id="addTaskSection">
+                <!-- Add a Task -->
+                 <input type="text" id="taskInput" placeholder="Add a new task">
+                <button id="addTaskBtn">Add Task</button>
+                <p id="taskErrorMsg"></p>
+            </div> 
+            <!-- List of Tasks-->
+             <div id="variousTasks"> 
+                    <ul id="tasks" class="tasks">
+                    </ul>
+                </div>
+             </div> 
         </section>
     </div>
 

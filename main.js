@@ -4,7 +4,7 @@ import TaskList from "./taskList.js";
 let addTaskBtn = document.getElementById("addTaskBtn"); 
 let taskInput = document.getElementById("taskInput");
 let errorMsg = document.getElementById("taskErrorMsg"); 
-let listOfTasks = document.getElementById("taskList"); 
+let listOfTasks = document.getElementById("tasks");  
 
 // Initiate TaskList Object.
 let taskList = new TaskList();
@@ -30,8 +30,6 @@ function isTaskEmpty()
     return data;
 }; 
 
-
-
 // Name         : updateTaskList
 // Description  : This function is used to update the Task List UI. 
 // Parameters   : taskList[]    :   This is an array of task lists. 
@@ -47,15 +45,22 @@ function updateTaskList(taskList)
         // Generate a new "li" element.
         const newTask = document.createElement("li"); 
 
-        // Assign the tasks value to the List Item Element. 
-        newTask.textContent = task; 
+        // Create a span for the task data & add the task contents.
+        const taskData = document.createElement("span"); 
+        taskData.textContent = task;  
 
-        // Access the Unordered List Element & append the newTask element.   
-        listOfTasks.appendChild(newTask);  
+        // Create the delete button for the task & add text.
+        const deleteBtn = document.createElement("button"); 
+        deleteBtn.textContent = "Delete"; 
+
+        // Add the textData and the deleteBtn to the LI. 
+        newTask.appendChild(taskData);
+        newTask.appendChild(deleteBtn); 
+
+        // Add the newTask to the listOfTasks UL.
+        listOfTasks.appendChild(newTask); 
     }
 };
-
-
 
 // Event Listener for Clicking the Add Task Button. 
 addTaskBtn.addEventListener("click", function () 
@@ -77,7 +82,7 @@ addTaskBtn.addEventListener("click", function ()
     taskList.AddTask(taskEntered);
 
     // Update the Task List UI. 
-    updateTaskList(taskList.listOfTasks); 
+    updateTaskList(taskList.listOfTasks);  
 
     // Clear the task input field.
     taskInput.value = "";  
