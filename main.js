@@ -30,28 +30,48 @@ function isTaskEmpty()
     return data;
 }; 
 
+
+// Name         : deleteTask
+// Description  : This callback function is tied to the delete button event handler. It will remove the specific task from the task list + update 
+//                the task list afterwards.  
+// Parameters   : string task   :   This is the tasks data. 
+// Return Value : Void.  
+function deleteTask(task)
+{
+    // Call the taskList object's method to remove the task from the array of tasks. 
+    taskList.removeTask(task); 
+}
+
 // Name         : updateTaskList
 // Description  : This function is used to update the Task List UI. 
 // Parameters   : taskList[]    :   This is an array of task lists. 
 // Return Value : Void.
-function updateTaskList(taskList) 
+function updateTaskList(tasks) 
 {
     // Clear the currently displayed tasks. 
-    listOfTasks.innerHTML = ""; 
+    listOfTasks.innerHTML = "";  
 
-    // Display all tasks within the taskList[]. 
-    for (const task of taskList)
-    {
+    // Loop through each task & update the taskList UI.
+    tasks.forEach((task, index) => {
         // Generate a new "li" element.
         const newTask = document.createElement("li"); 
 
         // Create a span for the task data & add the task contents.
         const taskData = document.createElement("span"); 
-        taskData.textContent = task;  
+        taskData.textContent = task;    
 
         // Create the delete button for the task & add text.
         const deleteBtn = document.createElement("button"); 
         deleteBtn.textContent = "Delete"; 
+
+        // Added an Event Listener for each dynamically created delete button. 
+        deleteBtn.addEventListener("click", () => {
+            // Remove the task. 
+            taskList.removeTask(index);    
+
+            // Update the task list.
+            updateTaskList(taskList.listOfTasks);   
+        }); 
 
         // Add the textData and the deleteBtn to the LI. 
         newTask.appendChild(taskData);
@@ -59,7 +79,7 @@ function updateTaskList(taskList)
 
         // Add the newTask to the listOfTasks UL.
         listOfTasks.appendChild(newTask); 
-    }
+    });
 };
 
 // Event Listener for Clicking the Add Task Button. 
@@ -97,3 +117,5 @@ taskInput.addEventListener("keydown", function(event)
         addTaskBtn.click(); 
     }
 });
+
+// Event listener for clicking the Remove Task button. 

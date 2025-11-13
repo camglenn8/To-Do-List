@@ -1,17 +1,17 @@
 export default class TaskList 
 {
-    #listOfTasks = [];
+    #taskList = [];
 
     // Constructor
     TaskList() 
     {
-        this.#listOfTasks = [];
+        this.#taskList = [];
     };
 
     // Getters/Setters
     get listOfTasks() 
     { 
-        return structuredClone(this.#listOfTasks); 
+        return structuredClone(this.#taskList); 
     }; 
 
     // Methods
@@ -23,6 +23,17 @@ export default class TaskList
     AddTask(taskData) 
     {
         // Add the taskEntered to the listOfTasks[].
-        this.#listOfTasks.push(taskData);
+        this.#taskList.push(taskData);
     }; 
+
+    // Name         : removeTask
+    // Description  : The purpose of this method is to remove a task from the listOfTasks[].  
+    // Parameters   : String task   :   This is the task the user entered.
+    // Return Value : listOfTask[]. 
+    removeTask(taskIndex)
+    {
+        console.log(`Task "${this.#taskList[taskIndex]}" removed from task list.`); 
+         // Remove the task from the taskList. 
+         this.#taskList.splice(taskIndex, 1); // Remove 1 task from the taskIndex. 
+    }
 }
