@@ -28,19 +28,13 @@ export function isTaskEmpty()
     return data;
 }; 
 
-// Name         : updateTaskList
-// Description  : This function is used to update the Task List UI. 
-// Parameters   : taskList[]    :   This is an array of task lists. 
-// Return Value : Void.
-function updateTaskList(tasks) 
+// Name         : createTask
+// Description  :  
+// Parameters   :  
+// Return Value : 
+function createTask(task, index)  
 {
-    // Clear the currently displayed tasks. 
-    listOfTasks.innerHTML = "";  
-
-    // Loop through each task & update the taskList UI.
-    tasks.forEach((task, index) => 
-    {
-        // Generate a new "li" element.
+      // Generate a new "li" element.
         const newTask = document.createElement("li"); 
 
         // Create a span for the task data & add the task contents.
@@ -63,11 +57,28 @@ function updateTaskList(tasks)
             // Remove the task. 
             taskList.splice(index, 1);    
 
-            // Update the task list.
-            updateTaskList(taskList);    
+            // Update the taskList.
+            updateTaskList(taskList);  
         }); 
-    });
-};
+}
+
+// Name         : updateTaskList
+// Description  : This function is used to update the Task List UI. 
+// Parameters   : taskList[]    :   This is an array of task lists. 
+// Return Value : Void.
+function updateTaskList(tasks) 
+{
+    // Clear the currently displayed tasks. 
+    listOfTasks.innerHTML = "";  
+
+    // Loop through each task & update the taskList UI.
+    tasks.forEach((task, index) => 
+    {
+        // Create all elements and add apply to UI.
+        createTask(task, index); 
+    }); 
+}; 
+
 
 // Name         : addTask
 // Description  : This function is used to add a task to the taskList[] & update the UI. 
