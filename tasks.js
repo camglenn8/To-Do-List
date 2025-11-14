@@ -32,21 +32,33 @@ export function isTaskEmpty()
 // Name         : shuffleTaskList
 // Description  : This function is used to determine whether or not a task should be moved up or down in the task list.
 // Parameters   : string shuffleType    :   This determines if a task should be moved up or down in the task list.
-//                int index             : This is the current index of the task to be moved.
+//                int currentTask       : This is the current index of the task to be moved.
 //                taskList[]            : This is the array of all the tasks on the task list.  
 // Return Value : Void. 
-function shuffleTaskList(shuffleType, index, taskList)
+function shuffleTaskList(shuffleType, currentTask, taskList)
 {
+    // Check to see if you should be moving the task up or down in the task list.  
     if (shuffleType == "moveUp")
     {
-        // Store the current task to be moved up.
-        let temp = taskList[index - 1];  
+        // Store the higher task.
+        let higherTask = taskList[currentTask - 1];  
 
-        // Replace the next task with the current task.
-        taskList[index - 1] = taskList[index]; 
+        // Replace the higher task with the current task.
+        taskList[currentTask - 1] = taskList[currentTask]; 
         
-        // Add the replaced task in the 
-        taskList[index] = temp; 
+        // Add the higher task in the current tasks previous position.
+        taskList[currentTask] = higherTask; 
+    }
+    else
+    {
+        // Store the previous task. 
+        let lowerTask = taskList[currentTask + 1]; 
+
+        // Replace the previous task with the current task.
+        taskList[currentTask + 1] = taskList[currentTask]; 
+
+        // Add the lower task in the current tasks previous position.
+        taskList[currentTask] = lowerTask;   
     }
 }
 
@@ -70,11 +82,16 @@ function createTask(task, index)
         const moveUpTaskBtn = document.createElement("button"); 
         moveUpTaskBtn.textContent = "Up" 
 
+        // Create the "moveDownTask" button.
+        const moveDownTaskBtn = document.createElement("button"); 
+        moveDownTaskBtn.textContent = "Down"; 
+
         // Generate a new "li" element & add all other elements to it.
         const newTask = document.createElement("li"); 
         newTask.appendChild(taskData);
         newTask.appendChild(deleteBtn); 
         newTask.appendChild(moveUpTaskBtn); 
+        newTask.appendChild(moveDownTaskBtn); 
 
         // Append the newTask LI element to the listOfTasks UL element.
         listOfTasks.appendChild(newTask); 
@@ -93,14 +110,27 @@ function createTask(task, index)
             // Check to see if the task can be moved up. 
             if (index > 0)
             {
+                // Move the task up in the list.
                 shuffleTaskList("moveUp", index, taskList); 
             }
-
             // Update the taskList.
             updateTaskList(taskList);  
         }); 
 
         // Add an Event Handler for each dynamically created DOWN button.
+        moveDownTaskBtn.addEventListener("click", () => {
+            // Check to see if the task can be moved down.
+            let lastTasksIndex = taskList.length - 1; 
+
+            if (index < lastTasksIndex)
+            {
+                // Move the task down in the list. 
+                shuffleTaskList("moveDown", index, taskList); 
+
+                // Update the taskList.
+                updateTaskList(taskList); 
+            }
+        });
 }
 
 // Name         : updateTaskList
