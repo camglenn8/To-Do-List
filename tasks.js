@@ -8,7 +8,7 @@ let listOfTasks = document.getElementById("tasks");
 // Initiate TaskList array.
 let taskList = []; 
 
-// Name         : isInputFilled
+// Name         : isTaskEmpty
 // Description  : This function is used to check if a user has inputted text inside a text input.
 // Parameters   : Void.
 // Return Value : Bool True     :   If user has entered text.
@@ -28,15 +28,36 @@ export function isTaskEmpty()
     return data;
 }; 
 
+
+// Name         : shuffleTaskList
+// Description  : This function is used to determine whether or not a task should be moved up or down in the task list.
+// Parameters   : string shuffleType    :   This determines if a task should be moved up or down in the task list.
+//                int index             : This is the current index of the task to be moved.
+//                taskList[]            : This is the array of all the tasks on the task list.  
+// Return Value : Void. 
+function shuffleTaskList(shuffleType, index, taskList)
+{
+    if (shuffleType == "moveUp")
+    {
+        // Store the current task to be moved up.
+        let temp = taskList[index - 1];  
+
+        // Replace the next task with the current task.
+        taskList[index - 1] = taskList[index]; 
+        
+        // Add the replaced task in the 
+        taskList[index] = temp; 
+    }
+}
+
+
 // Name         : createTask
-// Description  :  
-// Parameters   :  
-// Return Value : 
+// Description  : This function is used to create new task elements and display them on the taskList. 
+// Parameters   :  string task  :   This is the task data entered by the user.
+//              :  int index    :   This is the index of the specific task that was clicked (for the event handlers). 
+// Return Value : Void. 
 function createTask(task, index)  
 {
-      // Generate a new "li" element.
-        const newTask = document.createElement("li"); 
-
         // Create a span for the task data & add the task contents.
         const taskData = document.createElement("span"); 
         taskData.textContent = task;    
@@ -45,11 +66,17 @@ function createTask(task, index)
         const deleteBtn = document.createElement("button"); 
         deleteBtn.textContent = "Delete"; 
 
-        // Add the textData and the deleteBtn to the LI. 
+        // Create the "moveUpTask" button. 
+        const moveUpTaskBtn = document.createElement("button"); 
+        moveUpTaskBtn.textContent = "Up" 
+
+        // Generate a new "li" element & add all other elements to it.
+        const newTask = document.createElement("li"); 
         newTask.appendChild(taskData);
         newTask.appendChild(deleteBtn); 
+        newTask.appendChild(moveUpTaskBtn); 
 
-        // Add the newTask to the listOfTasks UL.
+        // Append the newTask LI element to the listOfTasks UL element.
         listOfTasks.appendChild(newTask); 
 
         // Added an Event Listener for each dynamically created delete button. 
@@ -60,19 +87,33 @@ function createTask(task, index)
             // Update the taskList.
             updateTaskList(taskList);  
         }); 
+
+        // Add an Event Handler for each dynamically created moveUpTask button. 
+        moveUpTaskBtn.addEventListener("click", () =>{
+            // Check to see if the task can be moved up. 
+            if (index > 0)
+            {
+                shuffleTaskList("moveUp", index, taskList); 
+            }
+
+            // Update the taskList.
+            updateTaskList(taskList);  
+        }); 
+
+        // Add an Event Handler for each dynamically created DOWN button.
 }
 
 // Name         : updateTaskList
 // Description  : This function is used to update the Task List UI. 
 // Parameters   : taskList[]    :   This is an array of task lists. 
 // Return Value : Void.
-function updateTaskList(tasks) 
+function updateTaskList(taskList) 
 {
-    // Clear the currently displayed tasks. 
+    // Clear the currently displayed tasks on the taskList.  
     listOfTasks.innerHTML = "";  
 
     // Loop through each task & update the taskList UI.
-    tasks.forEach((task, index) => 
+    taskList.forEach((task, index) => 
     {
         // Create all elements and add apply to UI.
         createTask(task, index); 
