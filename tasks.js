@@ -5,8 +5,8 @@
 let taskInput = document.getElementById("taskInput");
 let listOfTasks = document.getElementById("tasks");  
 
-// Initiate TaskList array.
-let taskList = []; 
+// Initiate TaskList object. 
+let taskList = {task:[], isChecked:false};   
 
 // Name         : isTaskEmpty
 // Description  : This function is used to check if a user has inputted text inside a text input.
@@ -41,24 +41,24 @@ function shuffleTaskList(shuffleType, currentTask, taskList)
     if (shuffleType == "moveUp")
     {
         // Store the higher task.
-        let higherTask = taskList[currentTask - 1];  
+        let higherTask = taskList.task[currentTask - 1];  
 
         // Replace the higher task with the current task.
-        taskList[currentTask - 1] = taskList[currentTask]; 
+        taskList.task[currentTask - 1] = taskList.task[currentTask]; 
         
         // Add the higher task in the current tasks previous position.
-        taskList[currentTask] = higherTask; 
+        taskList.task[currentTask] = higherTask; 
     }
     else
     {
         // Store the previous task. 
-        let lowerTask = taskList[currentTask + 1]; 
+        let lowerTask = taskList.task[currentTask + 1]; 
 
         // Replace the previous task with the current task.
-        taskList[currentTask + 1] = taskList[currentTask]; 
+        taskList.task[currentTask + 1] = taskList.task[currentTask]; 
 
         // Add the lower task in the current tasks previous position.
-        taskList[currentTask] = lowerTask;   
+        taskList.task[currentTask] = lowerTask;   
     }
 }
 
@@ -68,7 +68,7 @@ function shuffleTaskList(shuffleType, currentTask, taskList)
 // Parameters   :  string task  :   This is the task data entered by the user.
 //              :  int index    :   This is the index of the specific task that was clicked (for the event handlers). 
 // Return Value : Void. 
-function createTask(task, index)  
+function createTask(task, index)   
 {
         // Create a span for the task data & add the task contents.
         const taskData = document.createElement("span"); 
@@ -104,7 +104,7 @@ function createTask(task, index)
         // Added an Event Listener for each dynamically created delete button. 
         deleteBtn.addEventListener("click", () => {
             // Remove the task. 
-            taskList.splice(index, 1);    
+            taskList.task.splice(index, 1);    
 
             // Update the taskList.
             updateTaskList(taskList);  
@@ -125,7 +125,7 @@ function createTask(task, index)
         // Add an Event Handler for each dynamically created DOWN button.
         moveDownTaskBtn.addEventListener("click", () => {
             // Check to see if the task can be moved down.
-            let lastTasksIndex = taskList.length - 1; 
+            let lastTasksIndex = taskList.task.length - 1; 
 
             if (index < lastTasksIndex)
             {
@@ -142,13 +142,13 @@ function createTask(task, index)
 // Description  : This function is used to update the Task List UI. 
 // Parameters   : taskList[]    :   This is an array of task lists. 
 // Return Value : Void.
-function updateTaskList(taskList) 
+function updateTaskList() 
 {
     // Clear the currently displayed tasks on the taskList.  
     listOfTasks.innerHTML = "";  
 
     // Loop through each task & update the taskList UI.
-    taskList.forEach((task, index) => 
+    taskList.task.forEach((task, index) => 
     {
         // Create all elements and add apply to UI.
         createTask(task, index); 
@@ -163,10 +163,12 @@ function updateTaskList(taskList)
 export function addTask(taskEntered)
 {
     // Add the task to the taskList[].
-    taskList.push(taskEntered); 
+    //taskList.push(taskEntered); 
+
+    taskList.task.push(taskEntered); 
 
     // Update the Task List UI. 
-    updateTaskList(taskList);  
+    updateTaskList();   
 
     // Clear the task input field.
     taskInput.value = "";  
