@@ -86,12 +86,17 @@ function createTask(task, index)
         const moveDownTaskBtn = document.createElement("button"); 
         moveDownTaskBtn.textContent = "Down"; 
 
+        // Create the checkbox input field.
+        const taskCheckbox = document.createElement("input"); 
+        taskCheckbox.type = "checkbox"; 
+
         // Generate a new "li" element & add all other elements to it.
         const newTask = document.createElement("li"); 
         newTask.appendChild(taskData);
         newTask.appendChild(deleteBtn); 
         newTask.appendChild(moveUpTaskBtn); 
         newTask.appendChild(moveDownTaskBtn); 
+        newTask.appendChild(taskCheckbox); 
 
         // Append the newTask LI element to the listOfTasks UL element.
         listOfTasks.appendChild(newTask); 
