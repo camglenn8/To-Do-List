@@ -89,9 +89,9 @@ function createTask(task, index)
         // Generate a new "li" element & add all other elements to it.
         const newTask = document.createElement("li"); 
         newTask.appendChild(taskData);
-        newTask.appendChild(deleteBtn); 
         newTask.appendChild(moveUpTaskBtn); 
         newTask.appendChild(moveDownTaskBtn); 
+        newTask.appendChild(deleteBtn); 
 
         // Append the newTask LI element to the listOfTasks UL element.
         listOfTasks.appendChild(newTask); 
