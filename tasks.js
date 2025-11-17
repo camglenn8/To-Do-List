@@ -62,25 +62,27 @@ function shuffleTaskList(shuffleType, currentTask, taskList)
     }
 }
 
-// Name         : shuffleTaskList
-// Description  : This function is used to determine whether or not a task should be moved up or down in the task list.
-// Parameters   : string shuffleType    :   This determines if a task should be moved up or down in the task list.
-//                int currentTask       : This is the current index of the task to be moved.
-//                taskList[]            : This is the array of all the tasks on the task list.  
-// Return Value : Void. 
-function toggleTaskCheckbox(currentlyChecked)
+// Name         : isTaskComplete
+// Description  : This function is used to determine if a tasks checkbox has been checked or not and update the taskList[]'s isChecked property.
+// Parameters   : bool currentlyCheckd  :   This is a bool that represents the current state of the specific tasks checkbox.
+//              : int index             :   This is the current tasks index within the taskList[]. 
+// Return Value : bool true :   If the task's checkbox is checked. Otherwise, false. 
+function isTaskComplete(currentlyChecked, index)
 {
     // Toggles the tasks "checked" state. 
     if (currentlyChecked == true)
     {
         // Set the taskList{} isCheked property to false. 
-        taskList.isChecked = false; 
+        taskList[index].isChecked = true; 
     }
     else
     {
         // Toggle the taskList{} isCheked property. 
-        taskList.isChecked = true; 
+        taskList[index].isChecked = false;
+        return false;  
     }
+
+    return true; 
 }
 
 
@@ -89,11 +91,11 @@ function toggleTaskCheckbox(currentlyChecked)
 // Parameters   :  string task  :   This is the task data entered by the user.
 //              :  int index    :   This is the index of the specific task that was clicked (for the event handlers). 
 // Return Value : Void. 
-function createTask(taskEntered, index)   
+function createTask(taskEntered, index, taskChecked)    
 {
         // Create a span for the task data & add the task contents.
         const taskData = document.createElement("span"); 
-        taskData.textContent = taskEntered.task;     
+        taskData.textContent = taskEntered;     
 
         // Create the delete button for the task & add text.
         const deleteBtn = document.createElement("button"); 
@@ -121,6 +123,12 @@ function createTask(taskEntered, index)
 
         // Append the newTask LI element to the listOfTasks UL element.
         listOfTasks.appendChild(newTask); 
+
+        // Check to see if the task is already checked.
+        if (taskChecked == true)
+        {
+            taskCheckbox.checked = true; 
+        }
 
         // Added an Event Listener for each dynamically created delete button. 
         deleteBtn.addEventListener("click", () => {
@@ -159,7 +167,10 @@ function createTask(taskEntered, index)
         });
 
         // Add an event handler for each dynamically created taskCheckbox. 
-        taskCheckbox.addEventListener("click", toggleTaskCheckbox(taskCheckbox.checked));  
+        taskCheckbox.addEventListener("change", () =>{
+            // Toggle the checkbox. 
+            isTaskComplete(taskCheckbox.checked, index) 
+        });  
 }
 
 // Name         : updateTaskList
@@ -172,13 +183,10 @@ function updateTaskList()
     listOfTasks.innerHTML = "";  
 
     // Loop through each task & update the taskList UI.
-    taskList.forEach((task, index) => 
+    taskList.forEach((taskEntered, index) => 
     {
         // Create all elements and add apply to UI.
-        createTask(task, index);
-        
-        // Check to see if the task is already checked.
-        
+        createTask(taskEntered.task, index, taskEntered.isChecked); 
     }); 
 }; 
 
