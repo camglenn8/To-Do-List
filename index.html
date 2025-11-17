@@ -10,31 +10,40 @@
 
 <body>
     <!-- Nav Buttons -->
+     <nav id="navBar" class="navBar">
+        <button id="focusTimerBtn">Focus Timer</button>
+        <button id="yourTasksBtn">Your Tasks</button>
+     </nav>
 
     <!-- Outer Container -->
     <div id="outerContainer" class="outerContainer">
 
         <!-- Timer Section -->
-         <section id="timerSection">
-            <h1 id="title" class="title">Focus Timer</h1>
+         <section id="timerSection" class="timerSection">
+            <div class="widgetTitleArea">
+                <span id="title" class="widgetTitle">Focus Timer</span>
+                <button id="closeFocusTimerBtn">X</button>
+            </div>
          </section>
 
         <!-- Task Section -->
         <section class="taskSection">
-            <h1 id="title" class="title">Your Tasks</h1>
-            <!-- Add Task Input Field & Button -->
+            <!-- Task Title -->
+             <div class="widgetTitleArea">
+                <span id="title" class="widgetTitle">Your Tasks</span>
+                <button id="closeYourTasksBtn">X</button>
+            </div>
+            <!-- Add a Task Area -->
             <div id="addTaskSection">
-                <!-- Add a Task -->
+                <!-- Add Task -->
                  <input type="text" id="taskInput" placeholder="Add a new task">
                 <button id="addTaskBtn">Add Task</button>
                 <p id="taskErrorMsg"></p>
             </div> 
             <!-- List of Tasks-->
-             <div id="variousTasks"> 
-                    <ul id="tasks" class="tasks">
-                    </ul>
-                </div>
-             </div> 
+            <div id="variousTasks"> 
+                <ul id="tasks" class="tasks"></ul>
+            </div> 
         </section>
     </div>
 
