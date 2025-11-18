@@ -93,84 +93,94 @@ function isTaskComplete(currentlyChecked, index)
 // Return Value : Void. 
 function createTask(taskEntered, index, taskChecked)    
 {
-        // Create a span for the task data & add the task contents.
-        const taskData = document.createElement("span"); 
-        taskData.textContent = taskEntered;     
+    // Create a span for the task data & add the task contents.
+    const taskData = document.createElement("span"); 
+    taskData.textContent = taskEntered;   
+    
+    // Create the checkbox input field.
+    const taskCheckbox = document.createElement("input"); 
+    taskCheckbox.type = "checkbox"; 
 
-        // Create the delete button for the task & add text.
-        const deleteBtn = document.createElement("button"); 
-        deleteBtn.textContent = "Delete"; 
+    // Create a task container & add the taskData and taskCheckbox to it.
+    const taskContainer = document.createElement("div");
+    taskContainer.classList.add("taskContainer");  
+    taskContainer.appendChild(taskCheckbox); 
+    taskContainer.appendChild(taskData);
 
-        // Create the "moveUpTask" button. 
-        const moveUpTaskBtn = document.createElement("button"); 
-        moveUpTaskBtn.textContent = "Up" 
+    // Create the delete button.
+    const deleteBtn = document.createElement("button"); 
+    deleteBtn.textContent = "Delete"; 
 
-        // Create the "moveDownTask" button.
-        const moveDownTaskBtn = document.createElement("button"); 
-        moveDownTaskBtn.textContent = "Down"; 
+    // Create the "moveUpTask" button. 
+    const moveUpTaskBtn = document.createElement("button"); 
+    moveUpTaskBtn.textContent = "Up" 
 
-        // Create the checkbox input field.
-        const taskCheckbox = document.createElement("input"); 
-        taskCheckbox.type = "checkbox"; 
+    // Create the "moveDownTask" button.
+    const moveDownTaskBtn = document.createElement("button"); 
+    moveDownTaskBtn.textContent = "Down"; 
 
-        // Generate a new "li" element & add all other elements to it.
-        const newTask = document.createElement("li"); 
-        newTask.appendChild(taskData);
-        newTask.appendChild(deleteBtn); 
-        newTask.appendChild(moveUpTaskBtn); 
-        newTask.appendChild(moveDownTaskBtn); 
-        newTask.appendChild(taskCheckbox); 
+    // Create a div element for all buttons to go inside.
+    const btnContainer = document.createElement("div"); 
+    btnContainer.classList.add("taskBtnContainer"); 
+    btnContainer.appendChild(moveUpTaskBtn);
+    btnContainer.appendChild(moveDownTaskBtn);
+    btnContainer.appendChild(deleteBtn);  
 
-        // Append the newTask LI element to the listOfTasks UL element.
-        listOfTasks.appendChild(newTask); 
+    // Generate a new "li" element & add all other elements to it.
+    const newTask = document.createElement("li"); 
+    newTask.appendChild(taskContainer);
+    newTask.appendChild(btnContainer); 
 
-        // Check to see if the task is already checked.
-        if (taskChecked == true)
+    // Append the newTask LI element to the listOfTasks UL element.
+    listOfTasks.appendChild(newTask); 
+
+    // Check to see if the task is already checked.
+    if (taskChecked == true)
+    {
+        taskCheckbox.checked = true; 
+    }
+
+    // Added an Event Listener for each dynamically created delete button. 
+    deleteBtn.addEventListener("click", () => {
+        // Remove the task. 
+        taskList.splice(index, 1);    
+
+        // Update the taskList.
+        updateTaskList(taskList);  
+    }); 
+
+    // Add an Event Handler for each dynamically created moveUpTask button. 
+    moveUpTaskBtn.addEventListener("click", () =>{
+        // Check to see if the task can be moved up. 
+        if (index > 0)
         {
-            taskCheckbox.checked = true; 
+            // Move the task up in the list.
+            shuffleTaskList("moveUp", index, taskList); 
         }
+        // Update the taskList.
+        updateTaskList(taskList);  
+    }); 
 
-        // Added an Event Listener for each dynamically created delete button. 
-        deleteBtn.addEventListener("click", () => {
-            // Remove the task. 
-            taskList.splice(index, 1);    
+    // Add an Event Handler for each dynamically created DOWN button.
+    moveDownTaskBtn.addEventListener("click", () => {
+        // Check to see if the task can be moved down.
+        let lastTasksIndex = taskList.length - 1; 
+
+        if (index < lastTasksIndex)
+        {
+            // Move the task down in the list. 
+            shuffleTaskList("moveDown", index, taskList); 
 
             // Update the taskList.
-            updateTaskList(taskList);  
-        }); 
+            updateTaskList(taskList); 
+        }
+    });
 
-        // Add an Event Handler for each dynamically created moveUpTask button. 
-        moveUpTaskBtn.addEventListener("click", () =>{
-            // Check to see if the task can be moved up. 
-            if (index > 0)
-            {
-                // Move the task up in the list.
-                shuffleTaskList("moveUp", index, taskList); 
-            }
-            // Update the taskList.
-            updateTaskList(taskList);  
-        }); 
-
-        // Add an Event Handler for each dynamically created DOWN button.
-        moveDownTaskBtn.addEventListener("click", () => {
-            // Check to see if the task can be moved down.
-            let lastTasksIndex = taskList.length - 1; 
-
-            if (index < lastTasksIndex)
-            {
-                // Move the task down in the list. 
-                shuffleTaskList("moveDown", index, taskList); 
-
-                // Update the taskList.
-                updateTaskList(taskList); 
-            }
-        });
-
-        // Add an event handler for each dynamically created taskCheckbox. 
-        taskCheckbox.addEventListener("change", () =>{
-            // Toggle the checkbox. 
-            isTaskComplete(taskCheckbox.checked, index) 
-        });  
+    // Add an event handler for each dynamically created taskCheckbox. 
+    taskCheckbox.addEventListener("change", () =>{
+        // Toggle the checkbox. 
+        isTaskComplete(taskCheckbox.checked, index) 
+    });  
 }
 
 // Name         : updateTaskList
